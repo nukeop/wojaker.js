@@ -1,5 +1,5 @@
 export const replaceQRSubmit = setFile => {
-let QR = window.QR;
+  let QR = window.QR;
   QR.submit = function (e) {
     var t;
     QR.hidePostError(),
