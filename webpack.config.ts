@@ -13,8 +13,15 @@ const config: webpack.Configuration = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
+      }, {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader'
+          },
+        ],
       },
-    ],
+    ], 
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
@@ -30,7 +37,14 @@ const config: webpack.Configuration = {
     new WebpackUserscript({
       headers: {
         version: dev ? `[version]-build.[buildNo]` : `[version]`,
-        match: 'https://*.4chan*.org/*'
+        namespace: 'https://4chan.org',
+        include: 'https://*.4chan*.org/*',
+        grant: 'none'
+      },
+      proxyScript: {
+        baseUrl: 'http://127.0.0.1:12345',
+        filename: '[basename].proxy.user.js',
+        enable: () => process.env.LOCAL_DEV === '1'
       }
     })
   ]
